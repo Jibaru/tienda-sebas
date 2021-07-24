@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head
+    th:replace="fragments/header :: head(metaTitle = 'Lista Empleados')"
+  ></head>
+  <body>
+    <div th:replace="fragments/navbar :: navbar"></div>
+    <div class="container mt-4">
+      <div class="card">
+        <div class="card-header">Lista Empleados</div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead class="table-dark">
+                <tr>
+                  <th>Id</th>
+                  <th>Nombre</th>
+                  <th>Ap. Paterno</th>
+                  <th>Ap. Materno</th>
+                  <th>Cargo</th>
+                  <th colspan="2" class="text-center">
+                    <a
+                      th:href="@{/nuevo-empleado}"
+                      class="btn btn-success btn-sm"
+                    >
+                      <i class="fas fa-plus"></i> Nuevo Empleado
+                    </a>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="empleado:${listaEmpleados}">
+                  <td th:text="${empleado.idempleado}"></td>
+                  <td th:text="${empleado.nombre}"></td>
+                  <td th:text="${empleado.paterno}"></td>
+                  <td th:text="${empleado.materno}"></td>
+                  <td th:text="${empleado.cargo}"></td>
+                  <td class="text-center">
+                    <a
+                      th:href="@{/editar-empleado/{id}(id=${empleado.idempleado})}"
+                      class="btn btn-warning btn-sm"
+                    >
+                      <i class="fas fa-edit"></i> Editar
+                    </a>
+                    <a
+                      th:href="@{/eliminar-empleado/{id}(id=${empleado.idempleado})}"
+                      class="btn btn-danger btn-sm"
+                    >
+                      <i class="fas fa-trash-alt"></i> Eliminar
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div th:replace="fragments/footer :: footer"></div>
+  </body>
+</html>

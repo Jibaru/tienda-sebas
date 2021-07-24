@@ -1,0 +1,48 @@
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Tienda</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">Inicio</a>
+        </li>
+        <liv class="nav-item">
+          <div class="dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              type="button"
+              id="empleados"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="fas fa-users"></i> Empleados
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="empleados">
+              <li>
+                <a class="dropdown-item" th:href="@{/lista-empleados}">
+                  <i class="fas fa-list text-primary"></i> Lista Empleados
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" th:href="@{/nuevo-empleado}">
+                  <i class="fas fa-plus text-success"></i> Nuevo Empleado
+                </a>
+              </li>
+            </ul>
+          </div>
+        </liv>
+      </ul>
+    </div>
+  </div>
+</nav>

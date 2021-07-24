@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head
+    th:replace="fragments/header :: head(metaTitle = 'Editar Empleado')"
+  ></head>
+  <body>
+    <div th:replace="fragments/navbar :: navbar"></div>
+    <div class="container mt-4">
+      <div class="card">
+        <div class="card-header">Editar Empleado</div>
+        <div class="card-body">
+          <form
+            th:action="@{/grabar-empleado}"
+            th:object="${empleado}"
+            method="POST"
+          >
+            <input type="hidden" th:field="*{idempleado}" />
+            <div class="row">
+              <div class="col-sm-12 col-lg-6">
+                <div class="form-group">
+                  <label>Nombre</label>
+                  <input
+                    type="text"
+                    th:field="*{nombre}"
+                    class="form-control"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Apellido Paterno</label>
+                  <input
+                    type="text"
+                    th:field="*{paterno}"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-sm-12 col-lg-6">
+                <div class="form-group">
+                  <label>Apellido Materno</label>
+                  <input
+                    type="text"
+                    th:field="*{materno}"
+                    class="form-control"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Cargo</label>
+                  <input
+                    type="text"
+                    th:field="*{cargo}"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="form-group text-center mt-3">
+              <button type="submit" class="btn btn-warning text-white">
+                <i class="fas fa-check-circle"></i> Guardar cambios
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div th:replace="fragments/footer :: footer"></div>
+  </body>
+</html>

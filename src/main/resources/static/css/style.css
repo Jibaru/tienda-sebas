@@ -1,0 +1,324 @@
+:root{
+   /* --primario: #9C27B0; /*fondo total*/
+     background: url(../img/josue1.jpg);
+    background-size: 100%; 
+    --primarioOscuro: #29323c; /*navbar #434343*/
+    --secundario: #FFCE00;
+    --secundarioOscuro: #ffcc00ce;
+    --blanco: #FFF;
+    --negro: #000;
+
+    --fuentePrincipal: 'Staatliches', cursive;
+}
+
+/* */
+html{
+    box-sizing: border-box;
+    font-size: 62.5%; /*Con esto 1rem = 10px */
+}
+
+*, *:before, *:after{
+    box-sizing: inherit;
+}
+
+/* Globales*/
+body{
+    background-color: var(--primario);
+    font-size: 1.6rem;
+    line-height: 1.5;
+}
+
+p{
+    font-size: 1.8rem;
+    font-family: Arial, Helvetica, sans-serif;
+    color:var(--blanco);
+}
+ul{
+    font-size: 1.8rem;
+    font-family: Arial, Helvetica, sans-serif;
+    color:var(--blanco);
+}
+a{
+    text-decoration: none;
+}
+img{
+    max-width: 100%;
+}
+.contenedor{
+    max-width: 120rem;
+    margin: 0 auto;    
+}
+h1, h2, h3{
+    text-align: center;
+    color: var(--secundario);
+    font-family: var(--fuentePrincipal);
+}
+h1{
+    font-size: 4rem;
+}
+h2{
+    font-size: 3.2rem;
+}
+h3{
+    font-size: 2.4rem;
+}
+
+/* Header */
+.header{
+    display: flex;
+    justify-content: center;
+    
+    
+}
+.header__logo{
+    margin: 3rem 0;
+}
+/*Footer*/
+.footer{
+    background-color: var(--primarioOscuro);
+    padding: 1rem 0;
+    margin-top: 2rem;
+}
+.footer__texto{
+    font-family: var(--fuentePrincipal);
+    text-align: center;
+    font-size: 2.2rem;
+}
+
+
+/* Navegacion*/
+.navegacion{
+    background-color: var(--primarioOscuro);
+    padding: 1rem 0;
+    display: flex;
+    justify-content: center;  
+    /*gap: 2rem;/* Separación nueva */
+}
+
+.navegacion__enlace{
+    font-family: var(--fuentePrincipal);
+    color: var(--blanco);
+    font-size: 3rem;
+    margin-right: 2rem;
+}
+.navegacion__enlace:last-of-type{
+  margin-right: 0;
+}
+.navegacion__enlace:hover,
+.navegacion__enlace--activo{
+    color: var(--secundario);
+}
+/* Grid */
+
+.grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+@media (min-width: 768px){
+    .grid{
+        grid-template-columns: repeat(3, 1fr);        
+    }
+}
+/*Producto*/
+.producto{
+    background-color: var(--primarioOscuro);
+    padding: 1rem;
+}
+img{
+    width: 100%;
+}
+.producto__nombre{
+    font-size: 4rem;
+}
+.producto__precio{
+    font-size: 2.8rem;
+    color: var(--secundario);
+}
+.producto__nombre,
+.producto__precio{
+    font-family: var(--fuentePrincipal);
+    margin: 1rem ;
+    text-align: center;
+    line-height: 1.2;
+}
+
+
+.grafico{
+    min-height: 300px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    grid-column: 1/3;
+}
+.grafico--aea{
+    grid-row: 2/3;  
+    background-image: url(../img/gimnasios.jpg);    
+}
+
+.grafico--node{
+    background-image: url(../img/img_cover_academia_cardio.jpg); 
+    grid-row: 8/9;
+}
+
+@media (min-width: 768px){
+    .grafico--node{
+        grid-row: 5/6;
+        grid-column: 2/4;
+    }
+}
+/* Nosotros*/
+.nosotros{
+    display: grid;
+    grid-template-rows: auto;
+}
+@media (min-width: 768px){
+    .nosotros{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 2rem;
+    }
+}
+.nosotros-imagen{
+    grid-row: 1/2;
+    width: 100%;    
+}
+@media (min-width: 768px){
+    .nosotros-imagen{
+      grid-column: 2/3;
+    }
+}
+
+/* bloques */
+
+.bloques{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+@media (min-width: 768px){
+    .bloques{
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);        
+    }
+}
+
+.bloque{
+    text-align: center;
+}
+.bloque_titulo{
+    margin: 0;
+}
+
+/* Página del producto*/
+@media (min-width: 768px){
+    .mancuerda{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 2rem;
+    }
+    .pesas{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 2rem;
+    }
+    .suplemento{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 2rem;
+    }
+    .rueda{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 2rem;
+    }
+    .conos{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 2rem;
+    }
+    .bola{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 2rem;
+    }
+    .soga{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 2rem;
+    }
+    .Barra{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 2rem;
+    }
+    .z{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 2rem;
+    }
+    .elastica{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 2rem;
+    }
+    .faja{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 2rem;
+    }
+    .pinza{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 2rem;
+    }
+    .paralelas{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 2rem;
+    }
+    .estan{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 2rem;
+    }
+    .tobi{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 2rem;
+    }
+}
+.formulario{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+.formulario_campo{
+    border-color: var(--primarioOscuro);
+    border-width: 1rem;
+    border-style: solid;  
+    /*border: 1rem solid var(--primarioOscuro)*/ /* Lo mismo */
+    background-color: transparent;
+    color: var(--blanco);
+    font-size: 2rem;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 1rem;
+    appearance: none;
+}
+.formulario_submit{
+    background-color: var(--secundario);
+    border: none;
+    font-size: 2rem;
+    font-family: var(--fuentePrincipal);
+    padding: 2rem;
+    transition: background-color .3s ease;
+    display: grid;
+    grid-column: 1/3;
+}
+.formulario_submit:hover{    
+    cursor: pointer;
+    background-color: var(--secundarioOscuro);
+}
+.formulario_option{
+    color: var(--negro);
+    text-align: center;
+}

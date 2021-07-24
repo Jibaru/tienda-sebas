@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Frontend Store</title>
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Staatliches&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/style.css">
+        
+    </head>
+<body>
+    <!-- <header class="header">
+        <a href="index.html">
+            <img class="header__logo" src="img/vegetayim.jpeg" alt="Logotipo">
+        </a>
+    </header> -->
+    
+    <nav class="navegacion">
+        <a class="navegacion__enlace"  href="index.html">Tienda</a> 
+        <a class="navegacion__enlace navegacion__enlace--activo" href="nosotros.html">Nosotros</a>
+    </nav>
+
+    <main class="contenedor">
+        <h1>Pesas Tobilleras</h1>
+        <div class="tobi">
+            <img class="tobi_imagen" src="img/tobi.jpg" alt="Imagen del producto">
+            <div class="tobi_contenido">
+                <p>
+                    Están diseñadas para agregar peso a tu cuerpo, creando una
+                     resistencia adicional. Ayudan a dar una mayor dificultad 
+                     a los ejercicios que realices.
+                </p>
+                    <form class="formulario">
+                        <select class="formulario_campo">
+                            <option disabled selected>--Peso--</option>
+                            <option class="formulario_option">2kg</option>
+                            <option class="formulario_option">4kg</option>
+                            <option class="formulario_option">6k</option>
+                            <option class="formulario_option">8kg</option>
+                        </select>
+                        <input class="formulario_campo" type="number" placeholder="Cantidad" min="1">
+                        <input class="formulario_submit" type="submit" value="Agregar al Carrito">
+                    </form>                
+            </div>
+        </div>
+    </main>
+    
+
+    <footer class="footer">
+        <p class="footer__texto">Front End Store - Todos los derechos Reservados 2021.</p>
+    </footer>
+</body>
+</html>
