@@ -6,12 +6,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.untels.enums.Rol;
 
 @Entity
 @Table(name = "usuario")
@@ -23,11 +26,15 @@ public class Usuario implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idUsuario;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Column(name = "clave", nullable = false)
     private String clave;
+
+    @Column(name = "rol", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Rol rol;
 
     @Column(name = "estado", nullable = false)
     private boolean estado;
@@ -68,6 +75,14 @@ public class Usuario implements Serializable {
 
     public void setClave(String clave) {
         this.clave = clave;
+    }
+
+    public Rol getRol() {
+        return this.rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
     }
 
     public boolean isEstado() {
