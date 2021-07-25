@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import com.untels.dto.auth.EmailClaveDTO;
 import com.untels.dto.auth.UsuarioCompletoDTO;
 import com.untels.entity.Usuario;
+import com.untels.service.ArticuloService;
 import com.untels.service.UsuarioService;
 
 import org.springframework.stereotype.Controller;
@@ -14,26 +15,22 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 
 @Controller
 public class TiendaController {
 
     @Autowired
-    AuthenticationManager authenticationManager;
+    UsuarioService usuarioService;
 
     @Autowired
-    UsuarioService usuarioService;
+    ArticuloService articuloService;
 
     @Autowired
     HttpSession session;
 
     @GetMapping("/")
-    public String principal() {
+    public String principal(Model model) {
+        model.addAttribute("listaArticulos", articuloService.findAll());
         return "tienda/index";
     }
 
@@ -51,15 +48,14 @@ public class TiendaController {
 
     @PostMapping("/iniciar-sesion")
     public String iniciarSesion(@ModelAttribute("emailClave") EmailClaveDTO emailClaveDTO) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(emailClaveDTO.getEmail(), emailClaveDTO.getClave()));
+        if (!usuarioService.credencialesCorrectos(emailClaveDTO)) {
+            session.setAttribute("mensaje", "Email o Contraseña incorrectos");
+            return "redirect:/inicio-sesion";
+        }
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-        Usuario usuario = usuarioService.findByEmail(userDetails.getUsername()).get();
-
+        Usuario usuario = usuarioService.findByEmail(emailClaveDTO.getEmail()).get();
+        session.setMaxInactiveInterval(10 * 60);
+        session.removeAttribute("mensaje");
         session.setAttribute("usuario", usuario);
 
         return "redirect:/";
@@ -69,5 +65,11 @@ public class TiendaController {
     public String registrarse(@ModelAttribute("usuarioCompletoDTO") UsuarioCompletoDTO usuarioCompletoDTO) {
         usuarioService.saveUsuarioCliente(usuarioCompletoDTO);
         return "redirect:/inicio-sesion";
+    }
+
+    @GetMapping("/cerrar-sesion")
+    public String cerrarSesion() {
+        session.removeAttribute("usuario");
+        return "redirect:/";
     }
 }
