@@ -3,6 +3,7 @@ package com.untels.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.untels.dto.auth.EmailClaveDTO;
 import com.untels.dto.auth.UsuarioCompletoDTO;
 import com.untels.entity.Persona;
 import com.untels.entity.Usuario;
@@ -55,6 +56,15 @@ public class UsuarioService {
 
     public Usuario findByIdUsuario(long idUsuario) {
         return usuarioRepository.getOne(idUsuario);
+    }
+
+    public boolean credencialesCorrectos(EmailClaveDTO dto) {
+        if (!usuarioRepository.existsByEmail(dto.getEmail())) {
+            return false;
+        }
+        Usuario usuario = usuarioRepository.findByEmail(dto.getEmail()).get();
+
+        return passwordEncoder.matches(dto.getClave(), usuario.getClave());
     }
 
     public Usuario saveUsuarioCliente(UsuarioCompletoDTO dto) {
