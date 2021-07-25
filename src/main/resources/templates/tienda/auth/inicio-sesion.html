@@ -4,18 +4,51 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Inicio Sesión</title>
-    <div th:replace="tienda/fragments/estilos :: estilos"></div>
-    <link rel="stylesheet" type="text/css" href="/css/login.css" />
+    <link rel="stylesheet" type="text/css" href="/css/inicio-sesion.css" />
   </head>
   <body>
-    <form
-      th:action="@{/iniciar-sesion}"
-      th:object="${emailClave}"
-      method="POST"
-    >
-      <input type="text" th:field="*{email}" />
-      <input type="text" th:field="*{clave}" />
-      <button type="submit">enviar</button>
-    </form>
+    <div class="wrapper fadeInDown">
+      <div id="formContent">
+        <!-- Tabs Titles -->
+        <h2 class="active">Iniciar Sesión</h2>
+        <a href="/registro">
+          <h2 class="inactive underlineHover">Registro</h2>
+        </a>
+
+        <!-- Icon -->
+        <!-- <div class="fadeIn first">
+            <img src="http://danielzawadzki.com/codepen/01/icon.svg" id="icon" alt="User Icon" />
+          </div> -->
+
+        <!-- Login Form -->
+        <form
+          th:action="@{/iniciar-sesion}"
+          th:object="${emailClave}"
+          method="POST"
+        >
+          <input
+            type="text"
+            id="usu"
+            class="fadeIn second"
+            th:field="*{email}"
+            placeholder="Usuario"
+          />
+          <input
+            type="text"
+            id="cont"
+            class="fadeIn third"
+            th:field="*{clave}"
+            placeholder="Contraseña"
+          />
+          <input type="submit" class="but" value="Ingresar" />
+          <p th:text="${session.mensaje}"></p>
+        </form>
+
+        <!-- Remind Passowrd -->
+        <div id="formFooter">
+          <a class="underlineHover" href="#">Contraseña Perdida?</a>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

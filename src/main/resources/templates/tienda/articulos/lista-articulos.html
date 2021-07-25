@@ -8,6 +8,27 @@
   </head>
   <body>
     <nav th:replace="tienda/fragments/navbar :: navbar"></nav>
-    <h1>Lista Artículos</h1>
+    <main class="contenedor">
+      <h1 th:text="${titulo}"></h1>
+
+      <div class="grid">
+        <div th:each="articulo:${listaArticulos}" class="producto">
+          <a th:href="@{'/articulos/' + ${articulo.idArticulo}}">
+            <img
+              class="producto__imagen"
+              th:src="@{${articulo.imagen}}"
+              alt="suplemento"
+            />
+            <div class="producto__información">
+              <p th:text="${articulo.nombre}" class="producto__nombre"></p>
+              <p class="producto__precio">
+                S/. <span th:text="${articulo.precioVenta}"></span>
+              </p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </main>
+    <footer th:replace="tienda/fragments/footer :: footer"></footer>
   </body>
 </html>

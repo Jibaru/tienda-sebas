@@ -8,12 +8,30 @@
   </head>
   <body>
     <nav th:replace="tienda/fragments/navbar :: navbar"></nav>
-    <h1>Bienvenido</h1>
-    <div>
-      <div th:if="${session.usuario}">
-        <h2 th:text="${session.usuario.rol}"></h2>
+    <main class="contenedor">
+      <h1>Nuestros Productos</h1>
+
+      <div class="grid">
+        <div th:each="articulo:${listaArticulos}" class="producto">
+          <a th:href="@{'/articulos/' + ${articulo.idArticulo}}">
+            <img
+              class="producto__imagen"
+              th:src="@{${articulo.imagen}}"
+              alt="suplemento"
+            />
+            <div class="producto__información">
+              <p th:text="${articulo.nombre}" class="producto__nombre"></p>
+              <p class="producto__precio">
+                S/. <span th:text="${articulo.precioVenta}"></span>
+              </p>
+            </div>
+          </a>
+        </div>
+
+        <div class="grafico grafico--aea"></div>
+        <div class="grafico grafico--node"></div>
       </div>
-      <p></p>
-    </div>
+    </main>
+    <footer th:replace="tienda/fragments/footer :: footer"></footer>
   </body>
 </html>

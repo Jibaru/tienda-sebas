@@ -8,6 +8,41 @@
   </head>
   <body>
     <nav th:replace="tienda/fragments/navbar :: navbar"></nav>
-    <h1>Ver Artículo</h1>
+    <main class="contenedor">
+      <h1 th:text="${articulo.nombre}"></h1>
+      <div class="suplemento">
+        <img
+          class="suplemento_imagen"
+          th:src="@{${articulo.imagen}}"
+          alt="suplemento"
+        />
+        <div class="suplemento_contenido">
+          <p th:text="${articulo.descripcion}"></p>
+          <form class="formulario">
+            <!--<select class="formulario_campo">
+              <option disabled selected>--Peso--</option>
+              <option class="formulario_option">1kg</option>
+              <option class="formulario_option">2kg</option>
+              <option class="formulario_option">3k</option>
+              <option class="formulario_option">5kg</option>
+              <option class="formulario_option">11kg</option>
+            </select>-->
+            <input type="hidden" th:value="@{${articulo.idArticulo}}" />
+            <input
+              class="formulario_campo"
+              type="number"
+              placeholder="Cantidad"
+              min="1"
+            />
+            <input
+              class="formulario_submit"
+              type="submit"
+              value="Agregar al Carrito"
+            />
+          </form>
+        </div>
+      </div>
+    </main>
+    <footer th:replace="tienda/fragments/footer :: footer"></footer>
   </body>
 </html>

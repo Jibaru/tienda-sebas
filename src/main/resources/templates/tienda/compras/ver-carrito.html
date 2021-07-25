@@ -5,9 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Carrito</title>
     <div th:replace="tienda/fragments/estilos :: estilos"></div>
+    <link rel="stylesheet" type="text/css" href="/css/carrito.css" />
   </head>
   <body>
     <nav th:replace="tienda/fragments/navbar :: navbar"></nav>
-    <h1>Ver Carrito</h1>
+    <main class="contenedor">
+      <h1>Carrito</h1>
+      <div class="cart">
+        <table>
+          <thead>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+          </thead>
+          <tbody>
+            <td>1</td>
+            <td>Articulo 1</td>
+            <td>145</td>
+            <td>4</td>
+          </tbody>
+        </table>
+        <form action="">
+          <button>Realizar compra</button>
+        </form>
+      </div>
+    </main>
+    <footer th:replace="tienda/fragments/footer :: footer"></footer>
   </body>
 </html>

@@ -1,3 +1,68 @@
-<div th:fragment="navbar">
-  <h1>Navbar</h1>
-</div>
+<nav th:fragment="navbar" class="navegacion">
+  <style>
+    #busqueda {
+      background-color: #f6f6f6;
+      border: none;
+      color: #0d0d0d;
+      padding: 5px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 5px;
+      width: 85%;
+      border: 2px solid #f6f6f6;
+      transition: all 0.5s ease-in-out;
+      -webkit-border-radius: 5px 5px 5px 5px;
+      border-radius: 5px 5px 5px 5px;
+    }
+
+    #form-busqueda {
+      display: flex;
+      flex-direction: row;
+      margin-right: 10px;
+      font-family: var(--fuentePrincipal);
+    }
+
+    .btn-busqueda {
+      background-color: var(--secundario);
+      border: none;
+      font-size: 2rem;
+      font-family: var(--fuentePrincipal);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+  </style>
+  <a class="navegacion__enlace navegacion__enlace--activo" href="/">Tienda</a>
+  <!--<a class="navegacion__enlace" href="nosotros.html">Nosotros</a>-->
+  <form action="/articulos" method="GET" id="form-busqueda">
+    <input id="busqueda" name="busqueda" type="text" />
+    <button type="submit" class="btn-busqueda">Buscar</button>
+  </form>
+  <a class="navegacion__enlace" href="/carrito">Carrito</a>
+  <a
+    th:if="${session.usuario == null}"
+    class="navegacion__enlace"
+    href="/inicio-sesion"
+  >
+    Inicio Sesión
+  </a>
+  <a
+    th:if="${session.usuario}"
+    th:text="${session.usuario.persona.nombre}"
+    class="navegacion__enlace"
+    href="/perfil"
+  ></a>
+  <a th:if="${session.usuario}" class="navegacion__enlace" href="/compras">
+    Compras
+  </a>
+  <a
+    th:if="${session.usuario}"
+    class="navegacion__enlace"
+    href="/cerrar-sesion"
+  >
+    Salir
+  </a>
+</nav>
