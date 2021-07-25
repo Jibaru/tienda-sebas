@@ -5,8 +5,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Registro</title>
     <div th:replace="tienda/fragments/estilos :: estilos"></div>
+    <link rel="stylesheet" type="text/css" href="/css/login.css" />
   </head>
   <body>
-    <h1>Registro</h1>
+    <!--<form th:action="@{/registrarse}" th:object="${emailClave}" method="POST">
+      <input type="text" th:field="*{email}" />
+      <input type="text" th:field="*{clave}" />
+      <button type="submit">enviar</button>
+    </form>-->
+
+    <a href="/inicio-sesion"><div class="arrowLeft"></div></a>
+    <div class="wrapper" style="background-image: url('/img/ssj.png')">
+      <div class="inner">
+        <div class="image-holder">
+          <img src="/img/pro.jpg" alt="image" />
+        </div>
+        <form
+          th:action="@{/registrarse}"
+          th:object="${usuarioCompleto}"
+          method="POST"
+        >
+          <h3>Creando Usuario</h3>
+          <div class="form-group">
+            <input
+              type="text"
+              placeholder="Ape. Paterno"
+              th:field="*{apellidoPaterno}"
+              class="form-control"
+            />
+            <input
+              type="text"
+              placeholder="Ape. Materno"
+              th:field="*{apellidoMaterno}"
+              class="form-control"
+            />
+          </div>
+          <div class="form-wrapper">
+            <input
+              type="text"
+              placeholder="Nombre"
+              th:field="*{nombre}"
+              class="form-control"
+            />
+          </div>
+          <div class="form-wrapper">
+            <input
+              type="text"
+              placeholder="Email"
+              th:field="*{email}"
+              class="form-control"
+            />
+          </div>
+          <!--<div class="form-wrapper">
+            <select name="generoUsuario" id="" class="form-control">
+              <option value="" disabled selected>Genero</option>
+              <option value="masculino">Male</option>
+              <option value="femenino">Female</option>
+              <option value="otros">Other</option>
+            </select>
+          </div>-->
+          <div class="form-wrapper">
+            <input
+              type="password"
+              placeholder="Contraseña"
+              th:field="*{clave}"
+              class="form-control"
+            />
+          </div>
+          <!--<div class="form-wrapper">
+            <input
+              type="password"
+              placeholder="confirmar contraseña"
+              name="confConUsuario"
+              class="form-control"
+            />
+          </div>-->
+          <button type="submit">Registrarse</button>
+        </form>
+      </div>
+    </div>
   </body>
 </html>

@@ -5,8 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Inicio Sesión</title>
     <div th:replace="tienda/fragments/estilos :: estilos"></div>
+    <link rel="stylesheet" type="text/css" href="/css/login.css" />
   </head>
   <body>
-    <h1>Inicio Sesion</h1>
+    <form
+      th:action="@{/iniciar-sesion}"
+      th:object="${emailClave}"
+      method="POST"
+    >
+      <input type="text" th:field="*{email}" />
+      <input type="text" th:field="*{clave}" />
+      <button type="submit">enviar</button>
+    </form>
   </body>
 </html>

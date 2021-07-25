@@ -9,5 +9,11 @@
   <body>
     <nav th:replace="tienda/fragments/navbar :: navbar"></nav>
     <h1>Bienvenido</h1>
+    <div>
+      <div th:if="${session.usuario}">
+        <h2 th:text="${session.usuario.rol}"></h2>
+      </div>
+      <p></p>
+    </div>
   </body>
 </html>
