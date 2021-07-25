@@ -31,7 +31,7 @@ public class Venta implements Serializable {
     @Id
     @Column(name = "id_venta")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idventa;
+    private long idVenta;
 
     @Column(name = "tipo_comprobante", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -85,12 +85,12 @@ public class Venta implements Serializable {
         this.detalleVentas = detalleVentas;
     }
 
-    public long getIdventa() {
-        return this.idventa;
+    public long getIdVenta() {
+        return this.idVenta;
     }
 
-    public void setIdventa(long idventa) {
-        this.idventa = idventa;
+    public void setIdventa(long idVenta) {
+        this.idVenta = idVenta;
     }
 
     public TipoComprobante getTipoComprobante() {
