@@ -26,7 +26,7 @@ public class CategoriaService {
         categoriaRepository.save(categoria);
     }
 
-    public void deleteById(long id) {
+    public void deleteByIdCategoria(long id) {
         categoriaRepository.deleteById(id);
     }
 

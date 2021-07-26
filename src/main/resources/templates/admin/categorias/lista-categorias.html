@@ -8,6 +8,49 @@
   </head>
   <body>
     <nav th:replace="admin/fragments/navbar :: navbar"></nav>
-    <h1>Lista Categorías</h1>
+    <div class="container pt-2" >
+      <h1>Lista Categorias</h1>
+    
+      <table class="table table-striped">
+        <thead class="table-dark">
+          <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Descripcion</th>
+            <th>Estado</th>
+            <th colspan="2" class="text-center">
+              <a
+                th:href="@{/admin/categorias/nuevo}"
+                class="btn btn-success btn-sm"
+              >
+                <i class="fas fa-plus"></i> Nueva Categoria
+              </a>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="categoria:${listaCategorias}">
+            <td th:text="${categoria.idCategoria}"></td>
+            <td th:text="${categoria.nombre}"></td>
+            <td th:text="${categoria.descripcion}"></td>
+            <td th:text="${categoria.estado? 'activo':'inactivo'}"></td>
+            <td class="text-center">
+              <a
+                th:href="@{/admin/categorias/{id}(id=${categoria.idCategoria})}"
+                class="btn btn-warning btn-sm"
+              >
+                <i class="fas fa-edit"></i> Editar
+              </a>
+              <a
+                th:href="@{/admin/categorias/eliminar/{id}(id=${categoria.idCategoria})}"
+                class="btn btn-danger btn-sm"
+              >
+                <i class="fas fa-trash-alt"></i> Eliminar
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </body>
 </html>
