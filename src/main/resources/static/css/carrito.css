@@ -23,3 +23,33 @@ table thead {
 table tbody {
   text-align: end;
 }
+
+.submit-btn {
+  background-color: var(--secundario);
+  border: none;
+  font-size: 2rem;
+  font-family: var(--fuentePrincipal);
+  padding: 2rem;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.remover-btn {
+  background-color: var(--primarioOscuro);
+  border: none;
+  font-size: 2rem;
+  font-family: var(--fuentePrincipal);
+  color: var(--blanco);
+  padding: 0.7rem;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.remover-btn:hover {
+  opacity: 0.8;
+}
+
+.cantidad-input {
+  text-align: end;
+  width: 6rem;
+}
