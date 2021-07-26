@@ -12,10 +12,19 @@ public class PersonaUsuarioDTO {
     private String direccion;
     private String telefono;
     private String email;
+    private String clave;
     private String rol;
     private String estado;
 
     public PersonaUsuarioDTO() {
+    }
+
+    public String getClave() {
+        return this.clave;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
     }
 
     public Long getIdUsuario() {
