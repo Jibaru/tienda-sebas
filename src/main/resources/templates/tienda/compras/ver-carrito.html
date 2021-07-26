@@ -8,6 +8,18 @@
     <link rel="stylesheet" type="text/css" href="/css/carrito.css" />
   </head>
   <body>
+    <div id="modal-ok" class="modal-fade" style="display: none">
+      <div class="modal-card">
+        <h1>Mensaje</h1>
+        <p>Compra realizada con éxito</p>
+      </div>
+    </div>
+    <div id="modal-error" class="modal-fade" style="display: none">
+      <div class="modal-card">
+        <h1>Mensaje</h1>
+        <p>Ocurrió un problema. Intente de nuevo.</p>
+      </div>
+    </div>
     <nav th:replace="tienda/fragments/navbar :: navbar"></nav>
     <main
       class="contenedor"
@@ -66,6 +78,9 @@
         <form id="realizar-compra" style="text-align: center">
           <button class="submit-btn">Realizar compra</button>
         </form>
+        <div id="loader" style="display: flex; justify-content: center">
+          <div class="preloader"></div>
+        </div>
       </div>
       <script>
         var formRealizarCompra = document.getElementById("realizar-compra");
@@ -74,6 +89,9 @@
         var removerBtns = document.getElementsByClassName("remover-btn");
         var cantidadInputs = document.getElementsByClassName("cantidad-input");
         var totalSpan = document.getElementById("total");
+        var loader = document.getElementById("loader");
+        var modalOk = document.getElementById("modal-ok");
+        var modalError = document.getElementById("modal-error");
         var carrito = {};
         var total = {
           total: 0,
@@ -95,6 +113,8 @@
             this.presentar();
           },
         };
+
+        loader.style.display = "none";
 
         for (tr of elementos.children) {
           var cantidad = parseInt(tr.children[4].children[0].value);
@@ -129,6 +149,9 @@
             };
           });
 
+          formRealizarCompra.style.display = "none";
+          loader.style.display = "flex";
+
           fetch("/realizar-compra", {
             method: "POST",
             headers: {
@@ -140,20 +163,32 @@
             }),
           })
             .then((r) => {
+              formRealizarCompra.style.display = "block";
+              loader.style.display = "none";
               if (!r.ok) {
-                alert("No se pudo procesar la compra");
+                //alert("No se pudo procesar la compra");
+                modalError.style.display = "flex";
+                setTimeout(() => {
+                  modalError.style.display = "none";
+                }, 3000);
                 return;
               }
 
               if (r.url.includes("inicio-sesion")) {
                 window.location = r.url;
               } else if (r.url.includes("compras")) {
-                alert("Compra exitosa");
-                window.location = r.url;
+                modalOk.style.display = "flex";
+                setTimeout(() => {
+                  modalOk.style.display = "none";
+                  window.location = r.url;
+                }, 3000);
               }
             })
             .catch((e) => {
-              alert("No se pudo procesar la compra");
+              modalError.style.display = "flex";
+              setTimeout(() => {
+                modalError.style.display = "none";
+              }, 3000);
             });
         });
       </script>

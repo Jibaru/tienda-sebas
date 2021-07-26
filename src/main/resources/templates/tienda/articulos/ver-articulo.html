@@ -18,6 +18,9 @@
         />
         <div class="suplemento_contenido">
           <p th:text="${articulo.descripcion}"></p>
+          <h3>
+            Precio Venta: S/. <span th:text="${articulo.precioVenta}"></span>
+          </h3>
           <form
             th:action="${agregado} == 0 ? '/carrito/agregar': ('/carrito/remover/' + ${articulo.idArticulo})"
             th:object="${datos}"
@@ -25,6 +28,7 @@
             class="formulario"
           >
             <input type="hidden" th:field="*{idArticulo}" />
+            <h3>Cantidad:</h3>
             <input
               class="formulario_campo"
               type="number"

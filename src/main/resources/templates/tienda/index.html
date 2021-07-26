@@ -9,6 +9,7 @@
   <body>
     <nav th:replace="tienda/fragments/navbar :: navbar"></nav>
     <main class="contenedor">
+      <div id="banner" class="banner">SupersayaGYM</div>
       <h1>Nuestros Productos</h1>
 
       <div class="grid">
@@ -33,5 +34,24 @@
       </div>
     </main>
     <footer th:replace="tienda/fragments/footer :: footer"></footer>
+    <script>
+      var banner = document.getElementById("banner");
+      var letras = banner.textContent.split("");
+
+      (function ejecutar() {
+        var i = 1;
+        banner.textContent = letras[0];
+        var interval = setInterval(() => {
+          if (banner.textContent.length == letras.length) {
+            banner.textContent = letras[0];
+            i = 1;
+            //clearInterval(interval);
+          } else {
+            banner.textContent += letras[i];
+            i++;
+          }
+        }, 500);
+      })();
+    </script>
   </body>
 </html>
