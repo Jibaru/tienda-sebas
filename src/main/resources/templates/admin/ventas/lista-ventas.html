@@ -32,15 +32,16 @@
             <td th:text="${venta.tipoComprobante.name}"></td>
             <td th:text="${venta.serieComprobante}"></td>
             <td th:text="${venta.numComprobante}"></td>
-            <td th:text="${venta.fecha.DATE}"></td>
+            <td th:text="${venta.fecha.time.date +'/'+ venta.fecha.time.month +'/'+  venta.fecha.time.year}"></td>
             <td th:text="${venta.impuesto}"></td>
             <td th:text="${venta.total}"></td>
             <td th:text="${venta.estado.name}"></td>
-            <td th:text="${venta.cliente.getNombre()}"></td>
-            <td th:text="${venta.gerente.getNombre()}"></td>
+            <td th:text="${venta.cliente.getNombre()}" th:if="${venta.cliente}"></td>
+            <td th:text="${venta.gerente.getNombre()}" th:if="${venta.gerente}"></td>
           </tr>
         </tbody>
       </table>
     </div>
+    <div th:replace="admin/fragments/footer :: footer"></div>
   </body>
 </html>
