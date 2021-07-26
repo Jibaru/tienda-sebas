@@ -7,8 +7,6 @@ import javax.servlet.http.HttpSession;
 
 import com.untels.entity.Articulo;
 import com.untels.entity.Categoria;
-import com.untels.enums.Rol;
-import com.untels.security.supervisor.Supervisor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

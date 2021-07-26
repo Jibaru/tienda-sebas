@@ -8,6 +8,39 @@
   </head>
   <body>
     <nav th:replace="admin/fragments/navbar :: navbar"></nav>
-    <h1>Lista Ventas</h1>
+    <div class="container pt-2" >
+      <h1>Lista Ventas</h1>
+    
+      <table class="table table-striped">
+        <thead class="table-dark">
+          <tr>
+            <th>Id</th>
+            <th>Tipo Comprobante</th>
+            <th>Serie Comprobante</th>
+            <th>Numero Comprobante</th>
+            <th>Fecha</th>
+            <th>Impuesto</th>
+            <th>Total</th>
+            <th>Estado</th>
+            <th>Cliente</th>
+            <th>Gerente</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="venta:${listaVentas}">
+            <td th:text="${venta.idVenta}"></td>
+            <td th:text="${venta.tipoComprobante.name}"></td>
+            <td th:text="${venta.serieComprobante}"></td>
+            <td th:text="${venta.numComprobante}"></td>
+            <td th:text="${venta.fecha.DATE}"></td>
+            <td th:text="${venta.impuesto}"></td>
+            <td th:text="${venta.total}"></td>
+            <td th:text="${venta.estado.name}"></td>
+            <td th:text="${venta.cliente.getNombre()}"></td>
+            <td th:text="${venta.gerente.getNombre()}"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </body>
 </html>
