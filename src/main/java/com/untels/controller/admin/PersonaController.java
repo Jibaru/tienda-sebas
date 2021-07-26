@@ -1,12 +1,21 @@
 package com.untels.controller.admin;
 
 import com.untels.service.PersonaService;
+import com.untels.service.UsuarioService;
+
+import com.untels.dto.personas.PersonaUsuarioDTO;
 import com.untels.entity.Persona;
+import com.untels.entity.Usuario;
+import com.untels.enums.TipoDocumento;
+import com.untels.enums.Rol;
+import com.untels.enums.TipoPersona;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
@@ -14,6 +23,9 @@ public class PersonaController {
 
     @Autowired
     PersonaService personaService;
+
+    @Autowired
+    UsuarioService usuarioService;
 
     @GetMapping("/admin/personas")
     public String gestionPersonas(Model model) {
@@ -23,8 +35,34 @@ public class PersonaController {
 
     @GetMapping("/admin/personas/nuevo")
     public String crearPersona(Model model) {
-        model.addAttribute("persona", new Persona());
+        model.addAttribute("persona", new PersonaUsuarioDTO());
         return "admin/personas/form-persona";
+    }
+
+    @PostMapping("/admin/personas/grabar")
+    public String grabarPersona(@ModelAttribute("persona") PersonaUsuarioDTO personaDTO) {
+
+        Persona persona = new Persona();
+        Usuario usuario = new Usuario();
+
+        persona.setNombre(personaDTO.getNombre());
+        persona.setApellidoPaterno(personaDTO.getApellidoPaterno());
+        persona.setApellidoMaterno(personaDTO.getApellidoMaterno());
+        persona.setTipoPersona(TipoPersona.fromString(personaDTO.getTipoPersona()));
+        persona.setTipoDocumento(TipoDocumento.fromString(personaDTO.getTipoDocumento()));
+        persona.setNumDocumento(personaDTO.getNumDocumento());
+        persona.setDireccion(personaDTO.getDireccion());
+        persona.setTelefono(personaDTO.getTelefono());
+        usuario.setEmail(personaDTO.getEmail());
+        usuario.setRol(Rol.fromString(personaDTO.getRol()));
+        usuario.setEstado(personaDTO.getEstado() == "activo");
+        usuario.setClave("123JAja123");
+
+        usuarioService.save(usuario);
+        persona.setUsuario(usuario);
+        personaService.save(persona);
+
+        return  "redirect:/admin/personas";
     }
 
     @GetMapping("/admin/personas/{id}")
@@ -35,48 +73,54 @@ public class PersonaController {
             return "pagina-404";
         }
 
-        model.addAttribute("persona", personaService.findByIdPersona(id));
+        Persona persona = personaService.findByIdPersona(id);
+        PersonaUsuarioDTO personaDTO = new PersonaUsuarioDTO();
+
+        personaDTO.setIdUsuario(persona.getUsuario().getIdUsuario());
+        personaDTO.setIdPersona(persona.getIdPersona());
+        personaDTO.setNombre(persona.getNombre());
+        personaDTO.setApellidoPaterno(persona.getApellidoPaterno());
+        personaDTO.setApellidoMaterno(persona.getApellidoMaterno());
+        personaDTO.setTipoPersona(persona.getTipoPersona().name());
+        personaDTO.setTipoDocumento(persona.getTipoDocumento().name());
+        personaDTO.setNumDocumento(persona.getNumDocumento());
+        personaDTO.setDireccion(persona.getDireccion());
+        personaDTO.setTelefono(persona.getTelefono());
+        personaDTO.setEmail(persona.getUsuario().getEmail());
+        personaDTO.setRol(persona.getUsuario().getRol().name());
+        personaDTO.setEstado(persona.getUsuario().getEstado() ? "activo":"inactivo");
+
+        model.addAttribute("persona", personaDTO);
+
         return "admin/personas/form-persona";
     }
+
+    @PostMapping("/admin/personas/editar")
+    public String editarPersonaForm(@ModelAttribute("persona") PersonaUsuarioDTO personaDTO) {
+
+        Persona persona = personaService.findByIdPersona(personaDTO.getIdPersona());
+
+        persona.setNombre(personaDTO.getNombre());
+        persona.setApellidoPaterno(personaDTO.getApellidoPaterno());
+        persona.setApellidoMaterno(personaDTO.getApellidoMaterno());
+        persona.setTipoPersona(TipoPersona.fromString(personaDTO.getTipoPersona()));
+        persona.setTipoDocumento(TipoDocumento.fromString(personaDTO.getTipoDocumento()));
+        persona.setNumDocumento(personaDTO.getNumDocumento());
+        persona.setDireccion(personaDTO.getDireccion());
+        persona.setTelefono(personaDTO.getTelefono());
+        persona.getUsuario().setEmail(personaDTO.getEmail());
+        persona.getUsuario().setRol(Rol.fromString(personaDTO.getRol()));
+        persona.getUsuario().setEstado(personaDTO.getEstado() == "activo");
+
+        personaService.save(persona);
+        usuarioService.save(persona.getUsuario());
+
+        return  "redirect:/admin/personas";
+    }
+
+    @GetMapping("/admin/personas/eliminar/{id}")
+    public String eliminarPersona(@PathVariable("id") int id) {
+        personaService.deleteByIdPersona(id);
+        return  "redirect:/admin/personas";
+    }
 }
-/*
- * package com.untels.controller;**import java.util.Optional;**import
- * com.untels.entity.Empleado;import com.untels.service.EmpleadoService;**import
- * org.springframework.beans.factory.annotation.Autowired;import*org.
- * springframework.stereotype.Controller;import*org.springframework.ui.Model;
- * import*org.springframework.web.bind.annotation.GetMapping;import*org.
- * springframework.web.bind.annotation.ModelAttribute;import*org.springframework
- * .web.bind.annotation.PathVariable;import*org.springframework.web.bind.
- * annotation.PostMapping;**
- * 
- * @Controller public class EmpleadoController {
- **
- * @Autowired private EmpleadoService empleadoService;**
- * 
- * @GetMapping("/lista-empleados") public String listaEmpleados(Model model) {
- * model.addAttribute("listaEmpleados", empleadoService.getAllEmpleados());
- * return "empleado/lista-empleados"; }**
- * 
- * @GetMapping("/nuevo-empleado") public String nuevoEmpleado(Model model) {
- * Empleado empleado = new Empleado(); model.addAttribute("empleado", empleado);
- * return "empleado/nuevo-empleado"; }**
- * 
- * @PostMapping("/grabar-empleado") public String
- * grabarEmpleado(@ModelAttribute("empleado") Empleado empleado) {
- * empleadoService.grabarEmpleado(empleado); return "redirect:/lista-empleados";
- * }**
- * 
- * @GetMapping("/editar-empleado/{id}") public String
- * editarEmpleado(@PathVariable(value = "id") long id, Model model) {
- * Optional<Empleado> empleadoOpt = empleadoService.getEmpleadoById(id); if
- * (empleadoOpt.isPresent()) { Empleado empleado = empleadoOpt.get();
- * model.addAttribute("empleado", empleado); return "empleado/editar-empleado";
- * }
- * 
- * return "redirect:/lista-empleados"; }**
- * 
- * @GetMapping("/eliminar-empleado/{id}") public String
- * eliminarEmpleado(@PathVariable(value = "id") long id) {
- * this.empleadoService.eliminarEmpleadoById(id); return
- * "redirect:/lista-empleados"; } }
- */

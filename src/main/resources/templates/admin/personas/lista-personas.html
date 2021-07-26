@@ -8,6 +8,56 @@
   </head>
   <body>
     <nav th:replace="admin/fragments/navbar :: navbar"></nav>
-    <h1>Lista Personas</h1>
+    <div class="container pt-2" >
+      <h1>Lista Personas</h1>
+    
+      <table class="table table-striped">
+        <thead class="table-dark">
+          <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Ap. Paterno</th>
+            <th>Ap. Materno</th>
+            <th>Tipo Persona</th>
+            <th>Direccion</th>
+            <th>Telefono</th>
+            <th colspan="2" class="text-center">
+              <a
+                th:href="@{/admin/personas/nuevo}"
+                class="btn btn-success btn-sm"
+              >
+                <i class="fas fa-plus"></i> Nueva Persona
+              </a>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="persona:${listaPersonas}">
+            <td th:text="${persona.idPersona}"></td>
+            <td th:text="${persona.nombre}"></td>
+            <td th:text="${persona.apellidoPaterno}"></td>
+            <td th:text="${persona.apellidoMaterno}"></td>
+            <td th:text="${persona.tipoPersona.name}"></td>
+            <td th:text="${persona.direccion}"></td>
+            <td th:text="${persona.telefono}"></td>
+            <td class="text-center">
+              <a
+                th:href="@{/admin/personas/{id}(id=${persona.idPersona})}"
+                class="btn btn-warning btn-sm"
+              >
+                <i class="fas fa-edit"></i> Editar
+              </a>
+              <a
+                th:href="@{/admin/personas/eliminar/{id}(id=${persona.idPersona})}"
+                class="btn btn-danger btn-sm"
+              >
+                <i class="fas fa-trash-alt"></i> Eliminar
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div th:replace="admin/fragments/footer :: footer"></div>
   </body>
 </html>

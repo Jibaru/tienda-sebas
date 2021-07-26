@@ -8,6 +8,141 @@
   </head>
   <body>
     <nav th:replace="admin/fragments/navbar :: navbar"></nav>
-    <h1>Form Persona</h1>
+    <div class="container mt-4">
+      <div class="card">
+        <div class="card-header">Nueva Persona</div>
+        <div class="card-body">
+          <form
+            th:action="${persona.idPersona != null ? '/admin/personas/editar' : '/admin/personas/grabar'}"
+            th:object="${persona}"
+            method="POST"
+          >
+          <input type="hidden" th:field="*{idPersona}" />
+          <input type="hidden" th:field="*{idUsuario}" />
+            <div class="row">
+              <div class="col-sm-12 col-lg-6">
+                <div class="form-group">
+                  <label>Nombre</label>
+                  <input
+                    type="text"
+                    th:field="*{nombre}"
+                    class="form-control"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Apellido Paterno</label>
+                  <input
+                    type="text"
+                    th:field="*{apellidoPaterno}"
+                    class="form-control"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Apellido Materno</label>
+                  <input
+                    type="text"
+                    th:field="*{apellidoMaterno}"
+                    class="form-control"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Tipo Persona</label>
+                  <select 
+                    th:field="*{tipoPersona}"
+                    class="form-control"
+                    required>
+                    <option value="CLIENTE">cliente</option>
+                    <option value="PROVEEDOR">proveedor</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Tipo Documento</label>
+                  <select 
+                    th:field="*{tipoDocumento}"
+                    class="form-control"
+                    required>
+                    <option value="DNI">dni</option>
+                    <option value="RUC">ruc</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Numero Documento</label>
+                  <input
+                    type="text"
+                    th:field="*{numDocumento}"
+                    class="form-control"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Direccion</label>
+                  <input
+                    type="text"
+                    th:field="*{direccion}"
+                    class="form-control"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Telefono</label>
+                  <input
+                    type="text"
+                    th:field="*{telefono}"
+                    class="form-control"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Email</label>
+                  <input
+                    type="text"
+                    th:field="*{email}"
+                    class="form-control"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Rol</label>
+                  <select
+                    th:field="*{rol}"
+                    class="form-control"
+                    required>
+                    <option value="NORMAL">normal</option>
+                    <option value="ADMIN">administrador</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" th:field="*{estado}" value="activo">
+                    <label class="form-check-label">
+                      activo
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" th:field="*{estado}" value="inactivo">
+                    <label class="form-check-label">
+                      inactivo
+                    </label>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="form-group text-center mt-3">
+              <button type="submit" class="btn btn-primary" th:if="${persona.idPersona == null}">
+                <i class="fas fa-check-circle"></i> Registrar
+              </button>
+              <button type="submit" class="btn btn-primary" th:if="${persona.idPersona != null}">
+                <i class="fas fa-check-circle"></i> Editar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div th:replace="admin/fragments/footer :: footer"></div>
   </body>
 </html>
