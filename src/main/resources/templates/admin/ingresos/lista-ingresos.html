@@ -8,6 +8,48 @@
   </head>
   <body>
     <nav th:replace="admin/fragments/navbar :: navbar"></nav>
-    <h1>Lista Ingresos</h1>
+    <div class="container pt-2" >
+      <h1>Lista Ingresos</h1>
+    
+      <table class="table table-striped">
+        <thead class="table-dark">
+          <tr>
+            <th>Id</th>
+            <th>Tipo Comprobante</th>
+            <th>Serie Comprobante</th>
+            <th>Numero Comprobante</th>
+            <th>Fecha</th>
+            <th>Impuesto</th>
+            <th>Total</th>
+            <th>Estado</th>
+            <th>Gerente</th>
+            <th>Proveedor</th>
+            <th colspan="2" class="text-center">
+              <a
+                th:href="@{/admin/ingresos/nuevo}"
+                class="btn btn-success btn-sm"
+              >
+                <i class="fas fa-plus"></i> Nuevo Ingreso
+              </a>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="ingreso:${listaIngresos}">
+            <td th:text="${ingreso.idIngreso}"></td>
+            <td th:text="${ingreso.tipoComprobante.name}"></td>
+            <td th:text="${ingreso.serieComprobante}"></td>
+            <td th:text="${ingreso.numComprobante}"></td>
+            <td th:text="${ingreso.fecha.time.date +'/'+ ingreso.fecha.time.month +'/'+  ingreso.fecha.time.year}"></td>
+            <td th:text="${ingreso.impuesto}"></td>
+            <td th:text="${ingreso.total}"></td>
+            <td th:text="${ingreso.estado? 'activo':'inactivo'}"></td>
+            <td th:text="${ingreso.gerente.getNombre()}" th:if="${ingreso.gerente}"></td>
+            <td th:text="${ingreso.proveedor.getNombre()}" th:if="${ingreso.proveedor}"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div th:replace="admin/fragments/footer :: footer"></div>
   </body>
 </html>
