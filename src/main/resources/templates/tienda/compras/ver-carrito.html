@@ -8,28 +8,190 @@
     <link rel="stylesheet" type="text/css" href="/css/carrito.css" />
   </head>
   <body>
+    <div id="modal-ok" class="modal-fade" style="display: none">
+      <div class="modal-card">
+        <h1>Mensaje</h1>
+        <p>Compra realizada con éxito</p>
+      </div>
+    </div>
+    <div id="modal-error" class="modal-fade" style="display: none">
+      <div class="modal-card">
+        <h1>Mensaje</h1>
+        <p>Ocurrió un problema. Intente de nuevo.</p>
+      </div>
+    </div>
     <nav th:replace="tienda/fragments/navbar :: navbar"></nav>
-    <main class="contenedor">
+    <main
+      class="contenedor"
+      style="
+        max-width: none;
+        width: calc(100% - 20px);
+        margin-right: 10px;
+        margin-left: 10px;
+      "
+    >
       <h1>Carrito</h1>
-      <div class="cart">
-        <table>
+      <div th:if="${session.carrito == null or session.carrito.size == 0}">
+        <p style="text-align: center">Carrito Vacío</p>
+      </div>
+      <div
+        th:if="${session.carrito != null and session.carrito.size &gt; 0}"
+        class="cart"
+      >
+        <table id="tabla">
           <thead>
             <th>#</th>
             <th>Nombre</th>
             <th>Precio</th>
+            <th>Remover</th>
             <th>Cantidad</th>
           </thead>
-          <tbody>
-            <td>1</td>
-            <td>Articulo 1</td>
-            <td>145</td>
-            <td>4</td>
+          <tbody id="elementos">
+            <tr th:each="dato:${session.carrito}" th:id="@{'fila-' + 1}">
+              <td th:text="${dato.idArticulo}"></td>
+              <td th:text="${dato.nombre}"></td>
+              <td th:text="${dato.precioVenta}"></td>
+              <td style="text-align: center">
+                <form
+                  th:action="@{'/carrito/remover/' + ${dato.idArticulo}}"
+                  method="POST"
+                >
+                  <button data-id="1" type="submit" class="remover-btn">
+                    Remover
+                  </button>
+                </form>
+              </td>
+              <td>
+                <input
+                  th:data-id="@{${dato.idArticulo}}"
+                  type="number"
+                  th:value="${dato.cantidad}"
+                  class="cantidad-input"
+                />
+              </td>
+            </tr>
           </tbody>
         </table>
-        <form action="">
-          <button>Realizar compra</button>
+        <div style="text-align: end">
+          <span>Total: <span id="total"></span></span>
+        </div>
+        <form id="realizar-compra" style="text-align: center">
+          <button class="submit-btn">Realizar compra</button>
         </form>
+        <div id="loader" style="display: flex; justify-content: center">
+          <div class="preloader"></div>
+        </div>
       </div>
+      <script>
+        var formRealizarCompra = document.getElementById("realizar-compra");
+        var tabla = document.getElementById("tabla");
+        var elementos = document.getElementById("elementos");
+        var removerBtns = document.getElementsByClassName("remover-btn");
+        var cantidadInputs = document.getElementsByClassName("cantidad-input");
+        var totalSpan = document.getElementById("total");
+        var loader = document.getElementById("loader");
+        var modalOk = document.getElementById("modal-ok");
+        var modalError = document.getElementById("modal-error");
+        var carrito = {};
+        var total = {
+          total: 0,
+          presentar() {
+            totalSpan.textContent = this.total.toFixed(2);
+          },
+          actualizarTotal(nuevoValor) {
+            this.total = nuevoValor;
+            this.presentar();
+          },
+          agregar(valor) {
+            this.total += valor;
+            totalSpan.textContent = this.total;
+            this.presentar();
+          },
+          quitar(valor) {
+            this.total -= valor;
+            totalSpan.textContent = this.total;
+            this.presentar();
+          },
+        };
+
+        loader.style.display = "none";
+
+        for (tr of elementos.children) {
+          var cantidad = parseInt(tr.children[4].children[0].value);
+          var precio = parseFloat(tr.children[2].textContent);
+          carrito[tr.children[0].textContent] = {
+            cantidad: cantidad,
+            precio: precio,
+          };
+          total.agregar(cantidad * precio);
+        }
+
+        for (cantidadInput of cantidadInputs) {
+          cantidadInput.addEventListener("change", function (e) {
+            var id = e.target.getAttribute("data-id");
+            var valor = parseInt(e.target.value);
+
+            total.quitar(carrito[id].cantidad * carrito[id].precio);
+
+            carrito[id].cantidad = valor;
+
+            total.agregar(carrito[id].cantidad * carrito[id].precio);
+            console.log(carrito);
+          });
+        }
+
+        formRealizarCompra.addEventListener("submit", function (e) {
+          e.preventDefault();
+          var datos = Object.keys(carrito).map((id) => {
+            return {
+              idArticulo: id,
+              cantidad: carrito[id].cantidad,
+            };
+          });
+
+          formRealizarCompra.style.display = "none";
+          loader.style.display = "flex";
+
+          fetch("/realizar-compra", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            redirect: "follow",
+            body: JSON.stringify({
+              datos: datos,
+            }),
+          })
+            .then((r) => {
+              formRealizarCompra.style.display = "block";
+              loader.style.display = "none";
+              if (!r.ok) {
+                //alert("No se pudo procesar la compra");
+                modalError.style.display = "flex";
+                setTimeout(() => {
+                  modalError.style.display = "none";
+                }, 3000);
+                return;
+              }
+
+              if (r.url.includes("inicio-sesion")) {
+                window.location = r.url;
+              } else if (r.url.includes("compras")) {
+                modalOk.style.display = "flex";
+                setTimeout(() => {
+                  modalOk.style.display = "none";
+                  window.location = r.url;
+                }, 3000);
+              }
+            })
+            .catch((e) => {
+              modalError.style.display = "flex";
+              setTimeout(() => {
+                modalError.style.display = "none";
+              }, 3000);
+            });
+        });
+      </script>
     </main>
     <footer th:replace="tienda/fragments/footer :: footer"></footer>
   </body>

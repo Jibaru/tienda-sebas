@@ -6,6 +6,7 @@ import com.untels.dto.auth.EmailClaveDTO;
 import com.untels.dto.auth.UsuarioCompletoDTO;
 import com.untels.entity.Usuario;
 import com.untels.service.ArticuloService;
+import com.untels.service.CategoriaService;
 import com.untels.service.UsuarioService;
 
 import org.springframework.stereotype.Controller;
@@ -26,10 +27,14 @@ public class TiendaController {
     ArticuloService articuloService;
 
     @Autowired
+    CategoriaService categoriaService;
+
+    @Autowired
     HttpSession session;
 
     @GetMapping("/")
     public String principal(Model model) {
+        model.addAttribute("listaCategorias", categoriaService.findAll());
         model.addAttribute("listaArticulos", articuloService.findAll());
         return "tienda/index";
     }
