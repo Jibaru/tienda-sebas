@@ -4,9 +4,41 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Inicio Sesión Administrador</title>
-    <div th:replace="admin/fragments/estilos :: estilos"></div>
+    <link rel="stylesheet" type="text/css" href="/css/inicio-sesion.css" />
   </head>
   <body>
-    <h1>Inicio Sesión</h1>
+    <div class="wrapper fadeInDown">
+      <div id="formContent">
+  
+        <h2 class="active">Iniciar Sesión</h2>
+
+        <form
+          th:action="@{/admin/iniciar-sesion}"
+          th:object="${emailClave}"
+          method="POST"
+        >
+          <input
+            type="text"
+            id="usu"
+            class="fadeIn second"
+            th:field="*{email}"
+            placeholder="Usuario"
+          />
+          <input
+            type="text"
+            id="cont"
+            class="fadeIn third"
+            th:field="*{clave}"
+            placeholder="Contraseña"
+          />
+          <input type="submit" class="but" value="Ingresar" />
+          <p th:text="${session.mensaje}"></p>
+        </form>
+
+        <div id="formFooter">
+          <a class="underlineHover" href="#">Contraseña Perdida?</a>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
