@@ -11,7 +11,7 @@
     <main class="contenedor">
       <h1 th:text="${titulo}"></h1>
 
-      <div class="grid">
+      <div th:if="${listaArticulos.size > 0}" class="grid">
         <div th:each="articulo:${listaArticulos}" class="producto">
           <a th:href="@{'/articulos/' + ${articulo.idArticulo}}">
             <img
@@ -27,6 +27,9 @@
             </div>
           </a>
         </div>
+      </div>
+      <div th:if="${listaArticulos.size == 0}" style="text-align: center">
+        <p>No se encontraron artículos</p>
       </div>
     </main>
     <footer th:replace="tienda/fragments/footer :: footer"></footer>

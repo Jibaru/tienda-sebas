@@ -34,8 +34,49 @@
       align-items: center;
       cursor: pointer;
     }
+
+    #navegacion-categorias {
+      margin-right: 1rem;
+    }
+
+    #navegacion-categorias_lista {
+      position: absolute;
+      top: 35px;
+      background-color: var(--primarioOscuro);
+      color: var(--blanco);
+      padding: 2rem;
+      width: 100%;
+    }
+
+    #navegacion-categorias_lista li {
+      list-style: none;
+      font-size: 1.6rem;
+    }
+
+    #navegacion-categorias_lista a {
+      font-family: var(--fuentePrincipal);
+      color: var(--blanco);
+      font-size: 3rem;
+      padding: 0;
+      margin: 0;
+    }
+
+    #navegacion-categorias_lista a:hover {
+      color: var(--secundario);
+    }
   </style>
   <a class="navegacion__enlace navegacion__enlace--activo" href="/">Tienda</a>
+  <span id="navegacion-categorias" style="position: relative">
+    <span class="navegacion__enlace" style="cursor: pointer">Categorías</span>
+    <ul id="navegacion-categorias_lista">
+      <a
+        th:each="categoria:${listaCategorias}"
+        th:href="@{'/articulos/categoria/' + ${categoria.idCategoria}}"
+      >
+        <li th:text="${categoria.nombre}"></li>
+      </a>
+    </ul>
+  </span>
   <!--<a class="navegacion__enlace" href="nosotros.html">Nosotros</a>-->
   <form action="/articulos" method="GET" id="form-busqueda">
     <input id="busqueda" name="busqueda" type="text" />
@@ -53,7 +94,7 @@
     th:if="${session.usuario}"
     th:text="${session.usuario.persona.nombre}"
     class="navegacion__enlace"
-    href="/perfil"
+    href="/"
   ></a>
   <a th:if="${session.usuario}" class="navegacion__enlace" href="/compras">
     Compras
@@ -65,4 +106,18 @@
   >
     Salir
   </a>
+  <script>
+    var navCat = document.getElementById("navegacion-categorias");
+    var lista = document.getElementById("navegacion-categorias_lista");
+    lista.style.display = "none";
+    navCat.addEventListener("mouseover", function (_) {
+      lista.style.display = "block";
+    });
+    /*navCat.addEventListener("mouseout", function (_) {
+      lista.style.display = "none";
+    });*/
+    lista.addEventListener("mouseout", function (_) {
+      lista.style.display = "none";
+    });
+  </script>
 </nav>

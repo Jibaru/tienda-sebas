@@ -5,9 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Compras</title>
     <div th:replace="tienda/fragments/estilos :: estilos"></div>
+    <link rel="stylesheet" type="text/css" href="/css/carrito.css" />
   </head>
   <body>
     <nav th:replace="tienda/fragments/navbar :: navbar"></nav>
-    <h1>Lista compras</h1>
+    <main
+      class="contenedor"
+      style="
+        max-width: none;
+        width: calc(100% - 20px);
+        margin-right: 10px;
+        margin-left: 10px;
+      "
+    >
+      <h1>Compras</h1>
+      <div th:if="${listaCompras.size == 0}">
+        <p style="text-align: center">Sin compras</p>
+      </div>
+      <div th:if="${listaCompras.size != 0}" class="cart">
+        <table id="tabla">
+          <thead>
+            <th>#</th>
+            <th>Estado</th>
+            <th>Fecha</th>
+            <th>Total</th>
+            <th>Cancelar</th>
+          </thead>
+          <tbody>
+            <tr th:each="compra:${listaCompras}" th:id="@{'fila-' + 1}">
+              <td th:text="${compra.idVenta}"></td>
+              <td th:text="${compra.estado}"></td>
+              <td
+                th:text="${compra.fecha.time.date + '/' + compra.fecha.time.month + '/' + compra.fecha.time.fullYear}"
+              ></td>
+              <td th:text="${compra.total}"></td>
+              <td
+                th:if="${compra.estado.name != 'ANULADO' and compra.estado.name != 'COMPLETADO'}"
+                style="text-align: center"
+              >
+                <form
+                  th:action="@{'/compras/cancelar/' + ${compra.idVenta}}"
+                  method="POST"
+                >
+                  <button data-id="1" type="submit" class="remover-btn">
+                    Cancelar
+                  </button>
+                </form>
+              </td>
+              <td
+                th:if="${compra.estado.name == 'ANULADO'}"
+                style="text-align: center"
+              >
+                Se Anuló
+              </td>
+              <td
+                th:if="${compra.estado.name == 'COMPLETADO'}"
+                style="text-align: center"
+              >
+                Se Completó
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+    <footer th:replace="tienda/fragments/footer :: footer"></footer>
   </body>
 </html>
