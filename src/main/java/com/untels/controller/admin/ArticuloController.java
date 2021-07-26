@@ -54,4 +54,10 @@ public class ArticuloController {
         model.addAttribute("articulo", articuloService.findByIdArticulo(id));
         return "admin/articulos/form-articulo";
     }
+
+    @GetMapping("/admin/articulos/eliminar/{id}")
+    public String eliminarArticulo(@PathVariable("id") int id) {
+        articuloService.deleteByIdArticulo(id);
+        return  "redirect:/admin/articulos";
+    }
 }
