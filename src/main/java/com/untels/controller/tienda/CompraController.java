@@ -9,6 +9,8 @@ import javax.servlet.http.HttpSession;
 
 import com.untels.dto.compras.CarritoArticuloDTO;
 import com.untels.dto.compras.CarritoCompraDTO;
+import com.untels.email.EmailBodyDTO;
+import com.untels.email.EmailService;
 import com.untels.entity.Articulo;
 import com.untels.entity.DetalleVenta;
 import com.untels.entity.Persona;
@@ -53,6 +55,9 @@ public class CompraController {
     @Autowired
     HttpSession session;
 
+    @Autowired
+    EmailService emailService;
+
     @GetMapping("/compras")
     public String compras(Model model) {
 
@@ -92,11 +97,9 @@ public class CompraController {
     // Accede a los datos del carrito mediante la sesion
     @GetMapping("/carrito")
     public String carrito(Model model) {
-        @SuppressWarnings("unchecked")
-        List<CarritoArticuloDTO> carrito = (ArrayList<CarritoArticuloDTO>) session.getAttribute("carrito");
 
-        if (carrito == null) {
-            return "redirect:/";
+        if (session.getAttribute("carrito") == null) {
+            session.setAttribute("carrito", new ArrayList<CarritoArticuloDTO>());
         }
 
         model.addAttribute("listaCategorias", categoriaService.findAll());
@@ -190,6 +193,15 @@ public class CompraController {
 
         venta.setTotal(totalVenta);
         ventaService.save(venta);
+
+        String contenido = "Tu compra se ha registrado con id: " + venta.getIdVenta() + "\n"
+                + "Por favor ir al apartado de compras para ver el estado de su compra";
+
+        EmailBodyDTO emailDTO = new EmailBodyDTO();
+        emailDTO.setEmail(cliente.getEmail());
+        emailDTO.setContenido(contenido);
+        emailDTO.setAsunto("Compra realizada con éxito!");
+        emailService.sendEmail(emailDTO);
 
         return "redirect:/compras";
     }
