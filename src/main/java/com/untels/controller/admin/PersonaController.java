@@ -3,14 +3,18 @@ package com.untels.controller.admin;
 import com.untels.service.PersonaService;
 import com.untels.service.UsuarioService;
 
+import javax.servlet.http.HttpSession;
+
 import com.untels.dto.personas.PersonaUsuarioDTO;
 import com.untels.entity.Persona;
 import com.untels.entity.Usuario;
 import com.untels.enums.TipoDocumento;
 import com.untels.enums.Rol;
 import com.untels.enums.TipoPersona;
+import com.untels.security.supervisor.Supervisor;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,20 +31,52 @@ public class PersonaController {
     @Autowired
     UsuarioService usuarioService;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+    @Autowired
+    HttpSession session;
+
     @GetMapping("/admin/personas")
     public String gestionPersonas(Model model) {
+        
+        if (!Supervisor.haIniciadoSesion(session)) {
+            return "redirect:/admin";
+        }
+
+        if (!Supervisor.tieneRol(session, Rol.ADMIN)) {
+            return "redirect:/admin";
+        }
+      
         model.addAttribute("listaPersonas", personaService.findAll());
         return "admin/personas/lista-personas";
     }
 
     @GetMapping("/admin/personas/nuevo")
     public String crearPersona(Model model) {
+       
+        if (!Supervisor.haIniciadoSesion(session)) {
+            return "redirect:/admin";
+        }
+
+        if (!Supervisor.tieneRol(session, Rol.ADMIN)) {
+            return "redirect:/admin";
+        }
+
         model.addAttribute("persona", new PersonaUsuarioDTO());
         return "admin/personas/form-persona";
     }
 
     @PostMapping("/admin/personas/grabar")
     public String grabarPersona(@ModelAttribute("persona") PersonaUsuarioDTO personaDTO) {
+
+        if (!Supervisor.haIniciadoSesion(session)) {
+            return "redirect:/admin";
+        }
+
+        if (!Supervisor.tieneRol(session, Rol.ADMIN)) {
+            return "redirect:/admin";
+        }
 
         Persona persona = new Persona();
         Usuario usuario = new Usuario();
@@ -56,7 +92,7 @@ public class PersonaController {
         usuario.setEmail(personaDTO.getEmail());
         usuario.setRol(Rol.fromString(personaDTO.getRol()));
         usuario.setEstado(personaDTO.getEstado() == "activo");
-        usuario.setClave("123JAja123");
+        usuario.setClave(passwordEncoder.encode(personaDTO.getClave()));
 
         usuarioService.save(usuario);
         persona.setUsuario(usuario);
@@ -67,6 +103,14 @@ public class PersonaController {
 
     @GetMapping("/admin/personas/{id}")
     public String editarPersona(@PathVariable("id") int id, Model model) {
+
+        if (!Supervisor.haIniciadoSesion(session)) {
+            return "redirect:/admin";
+        }
+
+        if (!Supervisor.tieneRol(session, Rol.ADMIN)) {
+            return "redirect:/admin";
+        }
 
         if (!personaService.existePorIdPersona(id)) {
             // TODO: Cambiar a pagina de error
@@ -98,6 +142,14 @@ public class PersonaController {
     @PostMapping("/admin/personas/editar")
     public String editarPersonaForm(@ModelAttribute("persona") PersonaUsuarioDTO personaDTO) {
 
+        if (!Supervisor.haIniciadoSesion(session)) {
+            return "redirect:/admin";
+        }
+
+        if (!Supervisor.tieneRol(session, Rol.ADMIN)) {
+            return "redirect:/admin";
+        }
+
         Persona persona = personaService.findByIdPersona(personaDTO.getIdPersona());
 
         persona.setNombre(personaDTO.getNombre());
@@ -120,7 +172,17 @@ public class PersonaController {
 
     @GetMapping("/admin/personas/eliminar/{id}")
     public String eliminarPersona(@PathVariable("id") int id) {
+       
+        if (!Supervisor.haIniciadoSesion(session)) {
+            return "redirect:/admin";
+        }
+
+        if (!Supervisor.tieneRol(session, Rol.ADMIN)) {
+            return "redirect:/admin";
+        }
+       
         personaService.deleteByIdPersona(id);
         return  "redirect:/admin/personas";
     }
+
 }

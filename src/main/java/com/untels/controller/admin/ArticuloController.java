@@ -7,6 +7,8 @@ import javax.servlet.http.HttpSession;
 
 import com.untels.entity.Articulo;
 import com.untels.entity.Categoria;
+import com.untels.enums.Rol;
+import com.untels.security.supervisor.Supervisor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,14 +32,14 @@ public class ArticuloController {
 
     @GetMapping("/admin/articulos")
     public String gestionArticulos(Model model) {
-        /*
+        
         if (!Supervisor.haIniciadoSesion(session)) {
             return "redirect:/admin";
         }
 
         if (!Supervisor.tieneRol(session, Rol.ADMIN)) {
             return "redirect:/admin";
-        }*/
+        }
 
         model.addAttribute("listaArticulos", articuloService.findAll());
         return "admin/articulos/lista-articulos";
@@ -45,6 +47,15 @@ public class ArticuloController {
 
     @GetMapping("/admin/articulos/nuevo")
     public String crearArticulo(Model model) {
+
+        if (!Supervisor.haIniciadoSesion(session)) {
+            return "redirect:/admin";
+        }
+
+        if (!Supervisor.tieneRol(session, Rol.ADMIN)) {
+            return "redirect:/admin";
+        }
+
         model.addAttribute("articulo", new Articulo());
         model.addAttribute("listaCategorias", categoriaService.findAll());
         return "admin/articulos/form-articulo";
@@ -52,6 +63,14 @@ public class ArticuloController {
 
     @PostMapping("/admin/articulos/grabar")
     public String grabarPersona(@ModelAttribute("articulo") Articulo articuloParam) {
+
+        if (!Supervisor.haIniciadoSesion(session)) {
+            return "redirect:/admin";
+        }
+
+        if (!Supervisor.tieneRol(session, Rol.ADMIN)) {
+            return "redirect:/admin";
+        }
 
         Articulo articulo = new Articulo();
         Categoria categoria = categoriaService.findByIdCategoria(articuloParam.getCategoria().getIdCategoria());
@@ -73,6 +92,14 @@ public class ArticuloController {
     @GetMapping("/admin/articulo/{id}")
     public String editarArticulo(@PathVariable("id") int id, Model model) {
 
+        if (!Supervisor.haIniciadoSesion(session)) {
+            return "redirect:/admin";
+        }
+
+        if (!Supervisor.tieneRol(session, Rol.ADMIN)) {
+            return "redirect:/admin";
+        }
+
         if (!articuloService.existePorIdArticulo(id)) {
             // TODO: Cambiar a pagina de error
             return "pagina-404";
@@ -85,6 +112,14 @@ public class ArticuloController {
 
     @PostMapping("/admin/articulos/editar")
     public String editarArticuloForm(@ModelAttribute("articulo") Articulo articuloParam) {
+
+        if (!Supervisor.haIniciadoSesion(session)) {
+            return "redirect:/admin";
+        }
+
+        if (!Supervisor.tieneRol(session, Rol.ADMIN)) {
+            return "redirect:/admin";
+        }
 
         Articulo articulo = articuloService.findByIdArticulo(articuloParam.getIdArticulo());
         Categoria categoria = categoriaService.findByIdCategoria(articuloParam.getCategoria().getIdCategoria());
@@ -105,6 +140,15 @@ public class ArticuloController {
 
     @GetMapping("/admin/articulo/eliminar/{id}")
     public String eliminarArticulo(@PathVariable("id") int id) {
+        
+        if (!Supervisor.haIniciadoSesion(session)) {
+            return "redirect:/admin";
+        }
+
+        if (!Supervisor.tieneRol(session, Rol.ADMIN)) {
+            return "redirect:/admin";
+        }
+
         articuloService.deleteByIdArticulo(id);
         return  "redirect:/admin/articulos";
     }
