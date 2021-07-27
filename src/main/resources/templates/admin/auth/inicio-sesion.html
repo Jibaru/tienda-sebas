@@ -9,8 +9,7 @@
   <body>
     <div class="wrapper fadeInDown">
       <div id="formContent">
-  
-        <h2 class="active">Iniciar Sesión</h2>
+        <h2 class="active">Administrador</h2>
 
         <form
           th:action="@{/admin/iniciar-sesion}"
@@ -25,7 +24,7 @@
             placeholder="Usuario"
           />
           <input
-            type="text"
+            type="password"
             id="cont"
             class="fadeIn third"
             th:field="*{clave}"
@@ -35,9 +34,9 @@
           <p th:text="${session.mensaje}"></p>
         </form>
 
-        <div id="formFooter">
+        <!--<div id="formFooter">
           <a class="underlineHover" href="#">Contraseña Perdida?</a>
-        </div>
+        </div>-->
       </div>
     </div>
   </body>
