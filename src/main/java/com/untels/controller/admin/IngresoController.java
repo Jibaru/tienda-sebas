@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import com.untels.entity.Ingreso;
 import com.untels.entity.Persona;
+import com.untels.entity.Usuario;
 import com.untels.enums.Rol;
 import com.untels.security.supervisor.Supervisor;
 
@@ -72,7 +73,9 @@ public class IngresoController {
         if (!Supervisor.tieneRol(session, Rol.ADMIN)) {
             return "redirect:/admin";
         }
-
+        
+        Usuario gerenteUsuario = (Usuario) session.getAttribute("usuario");
+        Persona gerente = personaService.findByIdPersona(gerenteUsuario.getPersona().getIdPersona());
         Persona proveedor = personaService.findByIdPersona(ingresoParam.getProveedor().getIdPersona());
         Ingreso ingreso = new Ingreso();
 
@@ -83,12 +86,8 @@ public class IngresoController {
         ingreso.setImpuesto(ingresoParam.getImpuesto());
         ingreso.setTotal(ingresoParam.getTotal());
         ingreso.setEstado(ingresoParam.getEstado());
-
         ingreso.setProveedor(proveedor);
-
-        //Persona gerente = 
-
-        //ingreso.setGerente(gerente);
+        ingreso.setGerente(gerente);
         ingresoService.save(ingreso);
 
         return  "redirect:/admin/ingresos";

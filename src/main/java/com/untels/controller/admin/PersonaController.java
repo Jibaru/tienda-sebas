@@ -126,7 +126,7 @@ public class PersonaController {
         personaDTO.setApellidoPaterno(persona.getApellidoPaterno());
         personaDTO.setApellidoMaterno(persona.getApellidoMaterno());
         personaDTO.setTipoPersona(persona.getTipoPersona().name());
-        personaDTO.setTipoDocumento(persona.getTipoDocumento().name());
+        personaDTO.setTipoDocumento(persona.getTipoDocumento() != null ? persona.getTipoDocumento().name() : "");
         personaDTO.setNumDocumento(persona.getNumDocumento());
         personaDTO.setDireccion(persona.getDireccion());
         personaDTO.setTelefono(persona.getTelefono());

@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import com.untels.dto.auth.EmailClaveDTO;
 import com.untels.entity.Usuario;
 import com.untels.enums.Rol;
+import com.untels.security.supervisor.Supervisor;
 import com.untels.service.PersonaService;
 import com.untels.service.UsuarioService;
 
@@ -29,6 +30,14 @@ public class AdminController {
 
     @GetMapping("/admin")
     public String principal() {
+        if (!Supervisor.haIniciadoSesion(session)) {
+            return "redirect:/admin/inicio-sesion";
+        }
+
+        if (!Supervisor.tieneRol(session, Rol.ADMIN)) {
+            return "redirect:/admin/inicio-sesion";
+        }
+
         return "admin/index";
     }
 
@@ -56,6 +65,12 @@ public class AdminController {
         session.removeAttribute("mensaje");
         session.setAttribute("usuario", usuario);
 
+        return "redirect:/admin";
+    }
+
+    @GetMapping("/admin/cerrar-sesion")
+    public String cerrarSesion() {
+        session.removeAttribute("usuario");
         return "redirect:/admin";
     }
 }
