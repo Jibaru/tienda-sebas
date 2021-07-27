@@ -1,9 +1,11 @@
 package com.untels.controller.admin;
 
+import com.untels.service.ArticuloService;
 import com.untels.service.CategoriaService;
 
 import javax.servlet.http.HttpSession;
 
+import com.untels.entity.Articulo;
 import com.untels.entity.Categoria;
 import com.untels.enums.Rol;
 import com.untels.security.supervisor.Supervisor;
@@ -23,6 +25,9 @@ public class CategoriaController {
 
     @Autowired
     HttpSession session;
+
+    @Autowired
+    ArticuloService articuloService;
 
     @GetMapping("/admin/categorias")
     public String gestionCategorias(Model model) {
@@ -128,8 +133,14 @@ public class CategoriaController {
 
         if (!Supervisor.tieneRol(session, Rol.ADMIN)) {
             return "redirect:/admin";
+        } 
+        
+        Categoria categoria = categoriaService.findByIdCategoria(id);
+        for(Articulo articulo:categoria.getArticulos()){
+            articulo.setCategoria(null);
+            articuloService.save(articulo);
         }
-      
+
         categoriaService.deleteByIdCategoria(id);
         return  "redirect:/admin/categorias";
     }

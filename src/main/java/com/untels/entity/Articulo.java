@@ -48,7 +48,7 @@ public class Articulo implements Serializable {
     @Column(name = "estado", nullable = false)
     private boolean estado;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "id_categoria", referencedColumnName = "id_categoria")
     @JsonIgnore
     private Categoria categoria;

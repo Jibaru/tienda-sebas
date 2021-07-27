@@ -35,7 +35,7 @@ public class DetalleVenta implements Serializable {
     @JoinColumn(name = "id_venta", referencedColumnName = "id_venta")
     private Venta venta;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "id_articulo", referencedColumnName = "id_articulo")
     private Articulo articulo;
 

@@ -53,7 +53,7 @@ public class VentaController {
         return "redirect:/admin/ventas";
     }
 
-    @PostMapping("/admin/ventas/completar/{id}")
+    @GetMapping("/admin/ventas/completar/{id}")
     public String completarVenta(@PathVariable("id") long id, Model model) {
 
         if (!ventaService.existsByIdVenta(id)) {

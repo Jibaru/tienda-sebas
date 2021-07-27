@@ -41,7 +41,7 @@
             <td th:text="${articulo.stock}"></td>
             <td th:text="${articulo.descripcion}"></td>
             <td th:text="${articulo.estado? 'activo':'inactivo'}"></td>
-            <td th:text="${articulo.Categoria.nombre}"></td>
+            <td th:text="${articulo.Categoria!=null? articulo.Categoria.nombre:''}"></td>
             <td class="text-center">
               <a
                 th:href="@{/admin/articulo/{id}(id=${articulo.idArticulo})}"

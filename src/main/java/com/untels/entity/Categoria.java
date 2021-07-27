@@ -32,7 +32,7 @@ public class Categoria implements Serializable {
     @Column(name = "estado", nullable = false)
     private boolean estado;
 
-    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "categoria")
     private Set<Articulo> articulos = new HashSet<>();
 
     public Categoria() {

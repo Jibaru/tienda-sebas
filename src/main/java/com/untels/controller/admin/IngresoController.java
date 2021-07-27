@@ -63,7 +63,7 @@ public class IngresoController {
         return "admin/ingresos/form-ingreso";
     }
 
-    @PostMapping("/admin/ingresos/grabar")
+    @GetMapping("/admin/ingresos/grabar")
     public String grabarIngreso(@ModelAttribute("ingreso") Ingreso ingresoParam) {
 
         if (!Supervisor.haIniciadoSesion(session)) {

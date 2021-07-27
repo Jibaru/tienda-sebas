@@ -56,12 +56,12 @@ public class Venta implements Serializable {
     @Enumerated(EnumType.STRING)
     private EstadoVenta estado;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "id_cliente", referencedColumnName = "id_persona")
     @JsonIgnore
     private Persona cliente;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "id_gerente", referencedColumnName = "id_persona")
     @JsonIgnore
     private Persona gerente;

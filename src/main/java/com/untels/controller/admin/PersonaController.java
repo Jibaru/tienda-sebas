@@ -113,8 +113,7 @@ public class PersonaController {
         }
 
         if (!personaService.existePorIdPersona(id)) {
-            // TODO: Cambiar a pagina de error
-            return "pagina-404";
+            return "redirect:/admin/personas";
         }
 
         Persona persona = personaService.findByIdPersona(id);
@@ -163,6 +162,7 @@ public class PersonaController {
         persona.getUsuario().setEmail(personaDTO.getEmail());
         persona.getUsuario().setRol(Rol.fromString(personaDTO.getRol()));
         persona.getUsuario().setEstado(personaDTO.getEstado() == "activo");
+        persona.getUsuario().setClave(passwordEncoder.encode(personaDTO.getClave()));
 
         personaService.save(persona);
         usuarioService.save(persona.getUsuario());

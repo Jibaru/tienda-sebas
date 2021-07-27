@@ -60,10 +60,10 @@ public class Persona implements Serializable {
     @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
     private Usuario usuario;
 
-    @OneToMany(mappedBy = "gerente", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "gerente")
     private Set<Ingreso> ingresos = new HashSet<>();
 
-    @OneToMany(mappedBy = "gerente", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "gerente")
     private Set<Venta> ventas = new HashSet<>();
 
     public Persona() {

@@ -52,12 +52,12 @@ public class Ingreso implements Serializable {
     @Column(name = "estado", nullable = false)
     private boolean estado;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "id_gerente", referencedColumnName = "id_persona")
     @JsonIgnore
     private Persona gerente;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "id_proveedor", referencedColumnName = "id_persona")
     @JsonIgnore
     private Persona proveedor;
